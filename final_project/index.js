@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const session = require('express-session')
+const session = require('express-session');
+const { users } = require('./router/auth_users.js');
 const customer_routes = require('./router/auth_users.js').authenticated;
 const genl_routes = require('./router/general.js').general;
 
@@ -12,8 +13,10 @@ app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUni
 
 app.use('/customer/auth/*', function auth(req, res, next) {
     //if the user is authenticated
-    if (req.session.authentication) {
-      token = req.session.authentication['accessToken'];
+    console.log(req.session);
+    if (req.session.authorization) {
+      token = req.session.authorization['accessToken'];
+      username = req.session.authorization['username'];
       jwt.verify(token, 'access', (err, user) => {
         if (!err) {
           req.user = user;
