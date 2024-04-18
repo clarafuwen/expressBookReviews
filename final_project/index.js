@@ -13,7 +13,6 @@ app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUni
 
 app.use('/customer/auth/*', function auth(req, res, next) {
     //if the user is authenticated
-    console.log(req.session);
     if (req.session.authorization) {
       token = req.session.authorization['accessToken'];
       username = req.session.authorization['username'];
